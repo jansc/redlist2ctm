@@ -10,7 +10,8 @@
 # and/or modify it under the same terms as Perl itself.
 use strict;
 use warnings;
-use Text::CSV;
+use Text::CSV::Unicode;
+use Data::Dumper;
 
 my $file = $ARGV[0];
 
@@ -24,7 +25,7 @@ if (not $file) {
 # You might have to adjust this:
 my $order = 'coleoptera';
 
-my $csv = Text::CSV->new();
+my $csv = Text::CSV::Unicode->new();
 
 open (CSV, "<", $file) or die $!;
 
@@ -46,7 +47,7 @@ Version: 1.0
 %prefix lang <http://psi.oasis-open.org/geolang/iso639/#>
 %prefix redlist <http://psi.entomologi.org/redlist/>
 %prefix redlist-category <http://psi.entomologi.org/redlist/category#>
-%prefix ent <http://psi.entomologi.org>
+%prefix ent <http://psi.entomologi.org/>
 
 shortname isa tmcl:name-type;
     = http://psi.entomologi.org/name-type/shortname .
@@ -173,7 +174,8 @@ while (<CSV>) {
         #print "@columns\n";
     } else {
         my $err = $csv->error_input;
-        print "Failed to parse line: $err";
+        print "# Failed to parse line: $err";
+        print "#".Dumper($err);
     }
 }
 close CSV;
