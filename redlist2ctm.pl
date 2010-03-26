@@ -50,10 +50,10 @@ Version: 1.0
 %prefix ent <http://psi.entomologi.org/>
 
 shortname isa tmcl:name-type;
-    = http://psi.entomologi.org/name-type/shortname .
+    <http://psi.entomologi.org/name-type/shortname> .
 
 full_species_name isa tmcl:name-type;
-    = http://psi.entomologi.org/name-type/full_species_name .
+    <http://psi.entomologi.org/name-type/full_species_name> .
 
 ent:artsdatabank_id isa tmcl:occurrence-type;
     - "Artsdatabank ID" .
@@ -120,6 +120,12 @@ redlist-category:LC isa tmcl:topic-type;
     - "Least Concern";
     - "Livskraftig" @ lang:nno .
 
+redlist-category:NA isa tmcl:topic-type;
+    ako redlist:category;
+    - shortname: "NA";
+    - "Not Applicable";
+    - "Ikke egnet" @ lang:nno .
+
 redlist:redlist2006 isa ent:redlist;
     - "2006 Norwegian Red List";
     - "Norsk Rødliste 2006" @ lang:nno .
@@ -143,7 +149,7 @@ while (<CSV>) {
         $art_id =~ s/[\s\.\-]/_/g;
         print "$art_id isa ent:species;\n".
             "    http://psi.entomologi.org/species/$order/$art_id;\n".
-            "    = ".$columns[7].";\n";
+            "    <".$columns[7].">;\n";
         print "    ent:artsdatabank_id : ".$columns[0].";\n";
         if ($columns[3] ne '') {
             print "    - \"".$columns[3]."\" @ lang:nno;\n";
